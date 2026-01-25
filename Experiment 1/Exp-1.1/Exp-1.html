@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+
+        .box {
+            width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 18px;
+            display: block;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            font-size: 18px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        input:invalid {
+            border-color: red;
+        }
+
+        input:valid {
+            border-color: green;
+        }
+
+        .error {
+            color: red;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 12px 30px;
+            font-size: 20px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+        }
+
+        button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>Student Registration</h1>
+
+    <form>
+        
+        <label>Full Name:</label>
+        <input type="text"
+               placeholder="Enter full name"
+               pattern="[A-Za-z ]{9,50}"
+               required>
+        <div class="error">Must contain 9–50 letters</div>
+
+       
+        <label>Email:</label>
+        <input type="email"
+               placeholder="Enter email"
+               required>
+        <div class="error">Valid email required</div>
+
+        <!-- Age -->
+        <label>Age:</label>
+        <input type="number"
+               min="16"
+               max="30"
+               required>
+        <div class="error">Age 16–30 only</div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+</body>
+</html>
