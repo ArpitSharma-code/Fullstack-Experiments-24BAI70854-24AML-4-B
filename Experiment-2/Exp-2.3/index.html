@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Experiment 2.2 – SVG Drawing Tool</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    select, input, button {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+    }
+
+    button {
+      background: #667eea;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5563c1;
+    }
+
+    svg {
+      width: 100%;
+      height: 60vh;
+      background: white;
+      border-radius: 14px;
+      border: 2px solid #ccc;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>SVG Drawing Tool</h2>
+
+    <div class="toolbar">
+      <select id="tool">
+        <option value="pen">Pen</option>
+        <option value="rect">Rectangle</option>
+        <option value="circle">Circle</option>
+      </select>
+
+      <input type="color" id="color" value="#000000">
+
+      <label>
+        Thickness
+        <input type="range" id="thickness" min="1" max="10" value="3">
+      </label>
+
+      <button onclick="undo()">Undo</button>
+      <button onclick="clearAll()">Clear All</button>
+    </div>
+
+    <svg id="canvas"></svg>
+  </div>
+
+  <script>
+    const svg = document.getElementById("canvas");
+    const toolSelect = document.getElementById("tool");
+    const colorInput = document.getElementById("color");
+    const thicknessInput = document.getElementById("thickness");
+
+    let drawing = false;
+    let startX = 0, startY = 0;
+    let currentElement = null;
+
+    svg.addEventListener("mousedown", (e) => {
+      drawing = true;
+      startX = e.offsetX;
+      startY = e.offsetY;
+
+      const tool = toolSelect.value;
+      const color = colorInput.value;
+      const thickness = thicknessInput.value;
+
+      if (tool === "pen") {
+        currentElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        currentElement.setAttribute("d", `M ${startX} ${startY}`);
+      }
+
+      if (tool === "rect") {
+        currentElement = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        currentElement.setAttribute("x", startX);
+        currentElement.setAttribute("y", startY);
+        currentElement.setAttribute("width", 0);
+        currentElement.setAttribute("height", 0);
+      }
+
+      if (tool === "circle") {
+        currentElement = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+        currentElement.setAttribute("cx", startX);
+        currentElement.setAttribute("cy", startY);
+        currentElement.setAttribute("rx", 0);
+        currentElement.setAttribute("ry", 0);
+      }
+
+      currentElement.setAttribute("stroke", color);
+      currentElement.setAttribute("stroke-width", thickness);
+      currentElement.setAttribute("fill", "none");
+
+      svg.appendChild(currentElement);
+    });
+
+    svg.addEventListener("mousemove", (e) => {
+      if (!drawing) return;
+
+      const tool = toolSelect.value;
+      const x = e.offsetX;
+      const y = e.offsetY;
+
+      if (tool === "pen") {
+        let d = currentElement.getAttribute("d");
+        currentElement.setAttribute("d", d + ` L ${x} ${y}`);
+      }
+
+      if (tool === "rect") {
+        currentElement.setAttribute("width", x - startX);
+        currentElement.setAttribute("height", y - startY);
+      }
+
+      if (tool === "circle") {
+        currentElement.setAttribute("rx", Math.abs(x - startX));
+        currentElement.setAttribute("ry", Math.abs(y - startY));
+      }
+    });
+
+    svg.addEventListener("mouseup", () => {
+      drawing = false;
+      currentElement = null;
+    });
+
+    function undo() {
+      if (svg.lastChild) {
+        svg.removeChild(svg.lastChild);
+      }
+    }
+
+    function clearAll() {
+      svg.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
 
