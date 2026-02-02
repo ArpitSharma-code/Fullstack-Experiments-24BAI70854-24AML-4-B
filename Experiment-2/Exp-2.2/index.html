@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Filter</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: #f7f8fa;
+      color: #111;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      color: #666;
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    select {
+      padding: 10px 14px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+      animation: fadeUp 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 20px;
+      background: #eef2ff;
+      color: #4f46e5;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>🛒 Product Filter</h1>
+      <p>Browse products by category and price</p>
+    </header>
+
+    <div class="controls">
+      <select id="category">
+        <option value="All">All Categories</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Fashion">Fashion</option>
+        <option value="Education">Education</option>
+      </select>
+
+      <select id="sort">
+        <option value="default">Sort by price</option>
+        <option value="low">Low → High</option>
+        <option value="high">High → Low</option>
+      </select>
+    </div>
+
+    <div class="grid" id="productGrid"></div>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, name: "Laptop", price: 50000, category: "Electronics" },
+      { id: 2, name: "Headphones", price: 2000, category: "Electronics" },
+      { id: 3, name: "Shoes", price: 3000, category: "Fashion" },
+      { id: 4, name: "T-Shirt", price: 1000, category: "Fashion" },
+      { id: 5, name: "Book", price: 500, category: "Education" }
+    ];
+
+    const categorySelect = document.getElementById("category");
+    const sortSelect = document.getElementById("sort");
+    const productGrid = document.getElementById("productGrid");
+
+    function displayProducts(list) {
+      productGrid.innerHTML = "";
+
+      list.forEach(p => {
+        productGrid.innerHTML += `
+          <div class="card">
+            <h3>${p.name}</h3>
+            <h2>₹ ${p.price}</h2>
+            <span class="badge">${p.category}</span>
+          </div>
+        `;
+      });
+    }
+
+    function updateProducts() {
+      let filtered =
+        categorySelect.value === "All"
+          ? [...products]
+          : products.filter(p => p.category === categorySelect.value);
+
+      if (sortSelect.value === "low") {
+        filtered.sort((a, b) => a.price - b.price);
+      }
+
+      if (sortSelect.value === "high") {
+        filtered.sort((a, b) => b.price - a.price);
+      }
+
+      displayProducts(filtered);
+    }
+
+    categorySelect.addEventListener("change", updateProducts);
+    sortSelect.addEventListener("change", updateProducts);
+
+    // Initial display
+    displayProducts(products);
+  </script>
+</body>
+</html>
 
