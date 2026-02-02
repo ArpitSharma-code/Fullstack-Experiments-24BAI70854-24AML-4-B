@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Character Counter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- React & ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Styles -->
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Segoe UI, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+    }
+
+    .card {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 20px;
+      width: 420px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    h1 { text-align: center; }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      resize: none;
+      font-size: 16px;
+    }
+
+    textarea.error {
+      border-color: red;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #eee;
+      border-radius: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #6a82fb;
+      transition: width 0.3s;
+    }
+
+    .progress.error {
+      background: red;
+    }
+
+    .counter {
+      text-align: right;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+
+    .counter.error {
+      color: red;
+    }
+
+    .warning {
+      text-align: center;
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- React Code -->
+  <script type="text/babel">
+    const MAX_CHARS = 200;
+
+    function App() {
+      const [text, setText] = React.useState("");
+
+      const handleChange = (e) => {
+        if (e.target.value.length <= MAX_CHARS) {
+          setText(e.target.value);
+        }
+      };
+
+      const remaining = Math.max(0, MAX_CHARS - text.length);
+      const isLimitReached = text.length === MAX_CHARS;
+      const progress = (text.length / MAX_CHARS) * 100;
+
+      return (
+        <div className="card">
+          <h1>Live Character Counter</h1>
+
+          <textarea
+            value={text}
+            onChange={handleChange}
+            className={isLimitReached ? "error" : ""}
+            placeholder="Type your thoughts here..."
+          />
+
+          <div className="progress-bar">
+            <div
+              className={`progress ${isLimitReached ? "error" : ""}`}
+              style={{ width: progress + "%" }}
+            ></div>
+          </div>
+
+          <div className={`counter ${isLimitReached ? "error" : ""}`}>
+            {remaining} characters remaining
+          </div>
+
+          {isLimitReached && (
+            <div className="warning">
+              ⚠ You have reached the 200 character limit
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
 
