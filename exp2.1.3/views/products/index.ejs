@@ -1,0 +1,39 @@
+<%- include("../partials/header") %>
+
+<div class="row">
+
+<% products.forEach(product => { %>
+
+<div class="col-md-4 mb-4">
+
+<div class="card">
+
+<img src="<%= product.image %>" class="card-img-top" style="height:220px;object-fit:cover;">
+
+<div class="card-body">
+
+<h5 class="card-title"><%= product.name %></h5>
+
+<p>$ <%= product.price %></p>
+
+<a href="/products/<%= product._id %>" class="btn btn-primary">View</a>
+
+<a href="/products/<%= product._id %>/edit" class="btn btn-warning">Edit</a>
+
+<form action="/products/<%= product._id %>/delete" method="POST" style="display:inline">
+
+<button class="btn btn-danger">Delete</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+<%- include("../partials/footer") %>

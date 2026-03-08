@@ -1,0 +1,21 @@
+<%- include("../partials/header") %>
+
+<div class="card">
+
+<img src="<%= product.image %>" style="height:300px;object-fit:cover">
+
+<div class="card-body">
+
+<h2><%= product.name %></h2>
+
+<h4>$ <%= product.price %></h4>
+
+<p><%= product.description %></p>
+
+<a href="/products" class="btn btn-secondary">Back</a>
+
+</div>
+
+</div>
+
+<%- include("../partials/footer") %>

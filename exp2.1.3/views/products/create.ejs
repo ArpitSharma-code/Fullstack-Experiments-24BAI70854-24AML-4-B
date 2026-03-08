@@ -1,0 +1,27 @@
+<%- include("../partials/header") %>
+
+<h2>Add Product</h2>
+
+<form action="/products" method="POST">
+
+<div class="mb-3">
+<input name="name" class="form-control" placeholder="Product Name">
+</div>
+
+<div class="mb-3">
+<input name="price" class="form-control" placeholder="Price">
+</div>
+
+<div class="mb-3">
+<input name="image" class="form-control" placeholder="Image URL">
+</div>
+
+<div class="mb-3">
+<textarea name="description" class="form-control" placeholder="Description"></textarea>
+</div>
+
+<button class="btn btn-success">Add Product</button>
+
+</form>
+
+<%- include("../partials/footer") %>

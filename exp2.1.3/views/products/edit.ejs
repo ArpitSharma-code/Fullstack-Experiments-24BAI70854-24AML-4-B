@@ -1,0 +1,19 @@
+<%- include("../partials/header") %>
+
+<h2>Edit Product</h2>
+
+<form action="/products/<%= product._id %>/update" method="POST">
+
+<input name="name" class="form-control mb-3" value="<%= product.name %>">
+
+<input name="price" class="form-control mb-3" value="<%= product.price %>">
+
+<input name="image" class="form-control mb-3" value="<%= product.image %>">
+
+<textarea name="description" class="form-control mb-3"><%= product.description %></textarea>
+
+<button class="btn btn-primary">Update</button>
+
+</form>
+
+<%- include("../partials/footer") %>
